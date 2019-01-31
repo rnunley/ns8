@@ -1,4 +1,6 @@
-export default class User {
+import IModel from "./IModel";
+
+export default class User implements IModel {
     private _email: string;
     private _password: string;
     private _phoneNumber: string;
@@ -23,6 +25,13 @@ export default class User {
             this._phoneNumber = '';
         } else {
             this._phoneNumber = phoneNumber;
+        }
+    }
+
+    public toJson(): object {
+        return {
+            email: this._email,
+            phoneNumber: this.phoneNumber
         }
     }
 }

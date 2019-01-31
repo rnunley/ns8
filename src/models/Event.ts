@@ -1,4 +1,6 @@
-export default class Event {
+import IModel from "./IModel";
+
+export default class Event implements IModel {
     private _userEmail: string; 
     private _type: string;
     private _created: Date;
@@ -27,6 +29,14 @@ export default class Event {
         this._type = type;
         this._userEmail = userEmail;
         this._created = new Date();
+    }
+
+    public toJson() {
+        return {
+            userEmail: this._userEmail,
+            type: this._type,
+            created: this.created
+        }
     }
 
 }

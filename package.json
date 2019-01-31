@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm-run-all --sequential build run",
     "build": "tsc",
-    "run": "node dist/index.js"
+    "run": "node dist/index.js",
+    "debug": "node --inspect dist/index.js"
   },
   "author": "Richard Nunley",
   "license": "ISC",

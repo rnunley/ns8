@@ -1,6 +1,7 @@
 import * as express from 'express';
 import MockDatabase from '../MockDatabase';
 import Event from '../models/Event';
+import ModelUtil from '../models/ModelUtil';
 
 export default class EventRoutes {
     private _db: MockDatabase;
@@ -8,10 +9,10 @@ export default class EventRoutes {
     constructor(express: express.Express, db: MockDatabase) {
         this._db = db;
 
-        express.post('/event', this.createEvent);
-        express.get('/event', this.getAllEvents);
-        express.get('/event/user/:userEmail', this.getEventsForUser);
-        express.get('/event/today');
+        express.post('/event', this.createEvent.bind(this));
+        express.get('/event', this.getAllEvents.bind(this));
+        express.get('/event/user/:userEmail', this.getEventsForUser.bind(this));
+        express.get('/event/today', this.getEventsForToay.bind(this));
     }
 
     private createEvent(req: express.Request, res: express.Response) {
@@ -36,14 +37,25 @@ export default class EventRoutes {
     }
 
     private getAllEvents(req: express.Request, res: express.Response) {
-        res.send(this._db.getAllEvents());
+        const results = ModelUtil.arrayToJson(this._db.getAllEvents());
+
+        res.send(results);
     }
 
     private getEventsForToay(req: express.Request, res: express.Response) {
-        res.send(this._db.getEventsForToday());
+        const results = ModelUtil.arrayToJson(this._db.getEventsForToday());
+
+        res.send(results);
     }
 
     private getEventsForUser(req: express.Request, res: express.Response) {
-        res.send(this._db.getEventsForUser(req.params.userEmail));
+        if (!req.params.userEmail) {
+            res.status(500);
+            res.send('')
+        }
+        
+        const results = ModelUtil.arrayToJson(this._db.getEventsForUser(req.params.userEmail));
+
+        res.send(results);
     }
 }

@@ -8,7 +8,7 @@ export default class UserRoutes {
     constructor(express: express.Express, db: MockDatabase) {
         this._db = db;
         
-        express.post('/user', this.createUser);
+        express.post('/user', this.createUser.bind(this));
     }
 
     private createUser(req: express.Request, res: express.Response) {
