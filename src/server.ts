@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import MockDatabase from './MockDatabase';
 
 export default class Server {
@@ -7,6 +8,7 @@ export default class Server {
 
     constructor(db: MockDatabase){
         this._express = express();
+        this._express.use(bodyParser.json());
         this._db = db;
     }
 
