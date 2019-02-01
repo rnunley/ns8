@@ -1,4 +1,5 @@
 import IModel from "./IModel";
+import * as validator from 'validator';
 
 export default class Event implements IModel {
     private _userEmail: string; 
@@ -24,6 +25,9 @@ export default class Event implements IModel {
         }
         if (type.length === 0) {
             throw new Error('Length of type must be greater than zero!');
+        }
+        if (!validator.isEmail(userEmail)) {
+            throw new Error('Invalid email address for userEmail!');
         }
 
         this._type = type;
